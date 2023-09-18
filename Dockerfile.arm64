@@ -1,0 +1,16 @@
+FROM docker.io/arm64v8/alpine:3.18.3
+
+LABEL maintainer="Kevin Cottier <kevin.cottier@pm.me>"
+
+RUN apk --no-cache add wireguard-tools iptables ip6tables inotify-tools
+
+ENV PATH="/wireguard:${PATH}" \
+    IPTABLES_MASQ=0 \
+    WATCH_CHANGES=0
+
+WORKDIR /wireguard
+COPY run /wireguard
+
+VOLUME /etc/wireguard
+
+CMD ["run"]
